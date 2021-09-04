@@ -2,6 +2,7 @@ package com.example.voting.model;
 
 import com.example.voting.HasId;
 import com.example.voting.Web;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -27,6 +28,7 @@ public class Dish extends NamedEntity implements HasId {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     @NotNull
     private Restaurant restaurant;
 

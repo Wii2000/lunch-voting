@@ -1,8 +1,7 @@
 package com.example.voting.web.dish;
 
-import com.example.voting.to.DishTo;
-import com.example.voting.web.Matcher;
 import com.example.voting.model.Dish;
+import com.example.voting.web.Matcher;
 
 import java.util.List;
 
@@ -19,15 +18,10 @@ public class DishTestUtil {
 
     public static final List<Dish> dishes = List.of(dish1, dish2, dish3);
 
-    public static final DishTo dishTo1 = new DishTo(dish1.id(), dish1.getName(), dish1.getPriceInCents());
-    public static final DishTo dishTo2 = new DishTo(dish2.id(), dish2.getName(), dish2.getPriceInCents());
-    public static final DishTo dishTo3 = new DishTo(dish3.id(), dish3.getName(), dish3.getPriceInCents());
-
-    public static final List<DishTo> dishTos = List.of(dishTo1, dishTo2, dishTo3);
-
     public static Dish getNew() {
         return new Dish(null, "newDish", 100);
     }
+
     public static Dish getUpdated() {
         return new Dish(null, "updatedDish", 600);
     }

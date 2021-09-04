@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.voting.util.DishUtil.getTo;
 import static com.example.voting.util.VoteUtil.getVoteDate;
 import static java.util.stream.Collectors.groupingBy;
 
@@ -35,7 +34,7 @@ public class MenuController {
         dishRepository.findByRegistered(getVoteDate()).stream()
                 .collect(groupingBy(Dish::getRestaurant))
                 .forEach(((restaurant, dishes) ->
-                        result.add(new MenuTo(restaurant, getTo(dishes)))));
+                        result.add(new MenuTo(restaurant, dishes))));
 
         return result;
     }

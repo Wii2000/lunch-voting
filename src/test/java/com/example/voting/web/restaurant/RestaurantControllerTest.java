@@ -70,7 +70,7 @@ class RestaurantControllerTest extends AbstractControllerTest {
 
         Restaurant created = JsonUtil.readValue(Matcher.getString(actions), Restaurant.class);
         newRestaurant.setId(created.id());
-        MATCHER.assertMatch(created, newRestaurant);w
+        MATCHER.assertMatch(created, newRestaurant);
     }
 
     @Test
