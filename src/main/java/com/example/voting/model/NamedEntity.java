@@ -1,0 +1,35 @@
+package com.example.voting.model;
+
+import com.example.voting.Web;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+
+@MappedSuperclass
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public abstract class NamedEntity extends BaseEntity {
+
+    @Column(name = "name", nullable = false)
+    @NotBlank(groups = Web.class)
+    @Size(min = 2, max = 100, groups = Web.class)
+    protected String name;
+
+    protected NamedEntity(Integer id, String name) {
+        super(id);
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + '[' + name + ']';
+    }
+}
