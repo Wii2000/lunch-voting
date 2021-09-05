@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class VoteControllerTest extends AbstractControllerTest {
-    static final String URL = REST_URL + "/";
+    static final String URL = REST_URL + "?restaurantId=";
 
     @Autowired
     private VoteRepository voteRepository;

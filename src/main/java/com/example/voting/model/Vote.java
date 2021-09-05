@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "vote", uniqueConstraints =
-        {@UniqueConstraint(columnNames = {"user_id", "registered"})})
+        {@UniqueConstraint(columnNames = {"registered", "user_id"})})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

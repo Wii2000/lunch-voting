@@ -10,5 +10,5 @@ import java.time.LocalDate;
 @Transactional(readOnly = true)
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
     @Query("SELECT v FROM Vote v WHERE v.registered=:registered AND v.user.id=:userId")
-    Vote findByUserIdAndRegistered(int userId, LocalDate registered);
+    Vote findByRegisteredAndUserId(LocalDate registered, int userId);
 }

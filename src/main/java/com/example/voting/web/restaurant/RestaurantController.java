@@ -3,6 +3,7 @@ package com.example.voting.web.restaurant;
 import com.example.voting.Web;
 import com.example.voting.model.Restaurant;
 import com.example.voting.repository.RestaurantRepository;
+import com.example.voting.web.user.UniqueMailValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -10,10 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class RestaurantController {
     @GetMapping
     public List<Restaurant> getAll() {
         log.info("getAll");
-        return restaurantRepository.findAll(Sort.by(Sort.Direction.DESC, "name"));
+        return restaurantRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
     }
 
     @DeleteMapping("/{id}")

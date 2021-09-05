@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -34,9 +31,10 @@ public class VoteController {
     @Autowired
     private VoteRepository voteRepository;
 
-    @PostMapping(value = "/{restaurant_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public ResponseEntity<Vote> createWithLocation(
-            @AuthenticationPrincipal AuthUser authUser, @PathVariable("restaurant_id") int restaurantId
+            @AuthenticationPrincipal AuthUser authUser,
+            @RequestParam int restaurantId
     ) {
         log.info("create {}", restaurantId);
         Restaurant restaurant = checkNotFoundWithId(
@@ -45,7 +43,7 @@ public class VoteController {
         );
         LocalDate voteDate = getVoteDate();
 
-        Vote vote = voteRepository.findByUserIdAndRegistered(authUser.id(), voteDate);
+        Vote vote = voteRepository.findByRegisteredAndUserId(voteDate, authUser.id());
         if (vote != null) {
             vote.setRestaurant(restaurant);
         } else {

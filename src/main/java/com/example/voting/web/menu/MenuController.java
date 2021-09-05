@@ -33,8 +33,7 @@ public class MenuController {
 
         dishRepository.findByRegistered(getVoteDate()).stream()
                 .collect(groupingBy(Dish::getRestaurant))
-                .forEach(((restaurant, dishes) ->
-                        result.add(new MenuTo(restaurant, dishes))));
+                .forEach(((restaurant, dishes) -> result.add(new MenuTo(restaurant, dishes))));
 
         return result;
     }
