@@ -2,7 +2,6 @@ package com.example.voting.model;
 
 import com.example.voting.HasId;
 import com.example.voting.Web;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -14,7 +13,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "dish", uniqueConstraints =
-        {@UniqueConstraint(columnNames = {"registered", "restaurant_id", "name"})})
+        {@UniqueConstraint(columnNames = {"date", "restaurant_id", "name"})})
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,21 +28,20 @@ public class Dish extends NamedEntity implements HasId {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     @NotNull
     private Restaurant restaurant;
 
-    @Column(name = "registered", nullable = false, columnDefinition = "date default now()")
+    @Column(name = "date", nullable = false, columnDefinition = "date default now()")
     @NotNull(groups = Web.class)
-    private LocalDate registered;
+    private LocalDate date;
 
     public Dish(Integer id, String name, Integer priceInCents) {
         this(id, name, priceInCents, LocalDate.now());
     }
 
-    public Dish(Integer id, String name, Integer priceInCents, LocalDate registered) {
+    public Dish(Integer id, String name, Integer priceInCents, LocalDate date) {
         super(id, name);
         this.priceInCents = priceInCents;
-        this.registered = registered;
+        this.date = date;
     }
 }

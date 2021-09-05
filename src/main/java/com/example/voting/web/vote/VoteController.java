@@ -17,7 +17,7 @@ import java.net.URI;
 import java.time.LocalDate;
 
 import static com.example.voting.util.ValidationUtil.checkNotFoundWithId;
-import static com.example.voting.util.VoteUtil.getVoteDate;
+import static com.example.voting.util.TimeUtil.getVoteDate;
 
 @RestController
 @RequestMapping(value = VoteController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @UtilityClass
-public class VoteUtil {
+public class TimeUtil {
     public static final LocalTime VOTING_END_TIME = LocalTime.of(11, 0);
 
     public static LocalDate getVoteDate() {

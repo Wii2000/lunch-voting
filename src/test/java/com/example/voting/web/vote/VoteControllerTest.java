@@ -12,7 +12,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static com.example.voting.util.VoteUtil.getVoteDate;
+import static com.example.voting.util.TimeUtil.getVoteDate;
 import static com.example.voting.web.restaurant.RestaurantTestUtil.*;
 import static com.example.voting.web.user.UserTestUtil.USER_MAIL;
 import static com.example.voting.web.user.UserTestUtil.user;
