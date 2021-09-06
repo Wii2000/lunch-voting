@@ -4,6 +4,7 @@ import com.example.voting.Web;
 import com.example.voting.model.Restaurant;
 import com.example.voting.repository.RestaurantRepository;
 import com.example.voting.web.user.UniqueMailValidator;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -30,12 +31,14 @@ public class RestaurantController {
     protected RestaurantRepository restaurantRepository;
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get restaurant by id")
     public ResponseEntity<Restaurant> get(@PathVariable int id) {
         log.info("get {}", id);
         return ResponseEntity.of(restaurantRepository.findById(id));
     }
 
     @GetMapping
+    @Operation(summary = "Get all restaurants")
     public List<Restaurant> getAll() {
         log.info("getAll");
         return restaurantRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
@@ -43,12 +46,14 @@ public class RestaurantController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete restaurant by id")
     public void delete(@PathVariable int id) {
         log.info("delete {}", id);
         checkModification(restaurantRepository.delete(id), id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Create restaurant")
     public ResponseEntity<Restaurant> createWithLocation(@Validated(Web.class) @RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
         checkNew(restaurant);
@@ -61,6 +66,7 @@ public class RestaurantController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Update restaurant")
     public void update(@Validated(Web.class) @RequestBody Restaurant restaurant, @PathVariable int id) {
         log.info("update {} with id={}", restaurant, id);
         assureIdConsistent(restaurant, id);

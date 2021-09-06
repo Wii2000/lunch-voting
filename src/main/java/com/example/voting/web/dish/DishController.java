@@ -4,6 +4,7 @@ import com.example.voting.Web;
 import com.example.voting.model.Dish;
 import com.example.voting.repository.DishRepository;
 import com.example.voting.repository.RestaurantRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,12 +32,14 @@ public class DishController {
     private RestaurantRepository restaurantRepository;
 
     @GetMapping
+    @Operation(summary = "Get all dishes of restaurant")
     public List<Dish> getAll(@PathVariable("restaurant_id") int restaurantId) {
         log.info("get {}", restaurantId);
         return dishRepository.findByRestaurant(restaurantId);
     }
 
     @GetMapping(value = "/{dish_id}")
+    @Operation(summary = "Get dish of restaurant by id")
     public ResponseEntity<Dish> get(
             @PathVariable("restaurant_id") int restaurantId, @PathVariable("dish_id") int id
     ) {
@@ -46,6 +49,7 @@ public class DishController {
 
     @DeleteMapping(value = "/{dish_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete dish of restaurant by id")
     public void delete(
             @PathVariable("restaurant_id") int restaurantId, @PathVariable("dish_id") int id
     ) {
@@ -54,6 +58,7 @@ public class DishController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Create dish of restaurant")
     public ResponseEntity<Dish> createWithLocation(
             @PathVariable("restaurant_id") int restaurantId, @Validated(Web.class) @RequestBody Dish dish
     ) {
@@ -70,6 +75,7 @@ public class DishController {
 
     @PutMapping(value = "/{dish_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Update dish of restaurant")
     public void update(
             @PathVariable("restaurant_id") int restaurantId,
             @PathVariable("dish_id") int dishId,

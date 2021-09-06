@@ -5,6 +5,7 @@ import com.example.voting.model.Vote;
 import com.example.voting.repository.RestaurantRepository;
 import com.example.voting.repository.VoteRepository;
 import com.example.voting.web.AuthUser;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -32,6 +33,7 @@ public class VoteController {
     private VoteRepository voteRepository;
 
     @PostMapping
+    @Operation(summary = "Vote for restaurant")
     public ResponseEntity<Vote> createWithLocation(
             @AuthenticationPrincipal AuthUser authUser,
             @RequestParam int restaurantId
