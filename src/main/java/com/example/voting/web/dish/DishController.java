@@ -1,6 +1,5 @@
 package com.example.voting.web.dish;
 
-import com.example.voting.Web;
 import com.example.voting.model.Dish;
 import com.example.voting.repository.DishRepository;
 import com.example.voting.repository.RestaurantRepository;
@@ -10,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -60,7 +59,7 @@ public class DishController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create dish of restaurant")
     public ResponseEntity<Dish> createWithLocation(
-            @PathVariable("restaurant_id") int restaurantId, @Validated(Web.class) @RequestBody Dish dish
+            @PathVariable("restaurant_id") int restaurantId, @Valid @RequestBody Dish dish
     ) {
         log.info("create {}", dish);
         checkNew(dish);
@@ -79,7 +78,7 @@ public class DishController {
     public void update(
             @PathVariable("restaurant_id") int restaurantId,
             @PathVariable("dish_id") int dishId,
-            @Validated(Web.class) @RequestBody Dish dish
+            @Valid @RequestBody Dish dish
     ) {
         log.info("update {} with id={}", dish, dishId);
         assureIdConsistent(dish, dishId);

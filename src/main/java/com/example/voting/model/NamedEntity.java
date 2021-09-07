@@ -1,6 +1,5 @@
 package com.example.voting.model;
 
-import com.example.voting.Web;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +18,8 @@ import javax.validation.constraints.Size;
 public abstract class NamedEntity extends BaseEntity {
 
     @Column(name = "name", nullable = false)
-    @NotBlank(groups = Web.class)
-    @Size(min = 2, max = 100, groups = Web.class)
+    @NotBlank
+    @Size(min = 2, max = 100)
     protected String name;
 
     protected NamedEntity(Integer id, String name) {

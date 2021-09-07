@@ -1,9 +1,7 @@
 package com.example.voting.web.restaurant;
 
-import com.example.voting.Web;
 import com.example.voting.model.Restaurant;
 import com.example.voting.repository.RestaurantRepository;
-import com.example.voting.web.user.UniqueMailValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +9,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -54,7 +51,7 @@ public class RestaurantController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Create restaurant")
-    public ResponseEntity<Restaurant> createWithLocation(@Validated(Web.class) @RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
         checkNew(restaurant);
         Restaurant created = restaurantRepository.save(restaurant);
@@ -67,7 +64,7 @@ public class RestaurantController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Update restaurant")
-    public void update(@Validated(Web.class) @RequestBody Restaurant restaurant, @PathVariable int id) {
+    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
         log.info("update {} with id={}", restaurant, id);
         assureIdConsistent(restaurant, id);
         restaurantRepository.save(restaurant);

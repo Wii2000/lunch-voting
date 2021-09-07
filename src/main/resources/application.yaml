@@ -8,6 +8,12 @@ spring:
     hibernate:
       ddl-auto: create
     properties:
+      javax:
+        persistence:
+          validation:
+            group:
+              pre-persist: com.example.voting.Persist
+              pre-update: com.example.voting.Persist
       #  http://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#configurations
       hibernate:
         format_sql: true
@@ -25,10 +31,11 @@ spring:
     visibility.setter: none
     visibility.is-getter: none
 
+
 logging:
   level:
     root: WARN
     com.example.voting: DEBUG
-#    org.springframework.security.web.FilterChainProxy: DEBUG
+    #    org.springframework.security.web.FilterChainProxy: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
 #    org.springframework.orm.jpa: DEBUG

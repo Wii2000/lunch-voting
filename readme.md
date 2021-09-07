@@ -1,4 +1,4 @@
-#Lunch voting
+# Lunch voting
 
 REST API of voting system for deciding where to have lunch.<br>
 Used instruments: Spring Boot 2.5, Security, JPA(Hibernate), Maven, Lombok, H2, Swagger/OpenAPI 3.0.

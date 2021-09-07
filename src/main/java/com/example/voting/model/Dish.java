@@ -1,7 +1,7 @@
 package com.example.voting.model;
 
 import com.example.voting.HasId;
-import com.example.voting.Web;
+import com.example.voting.Persist;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -21,18 +21,18 @@ import java.time.LocalDate;
 public class Dish extends NamedEntity implements HasId {
 
     @Column(name = "price_in_cents", nullable = false)
-    @Range(min = 10, max = 5000, groups = Web.class)
-    @NotNull(groups = Web.class)
+    @Range(min = 10, max = 5000)
+    @NotNull
     private Integer priceInCents;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
+    @NotNull(groups = Persist.class)
     private Restaurant restaurant;
 
     @Column(name = "date", nullable = false, columnDefinition = "date default now()")
-    @NotNull(groups = Web.class)
+    @NotNull
     private LocalDate date;
 
     public Dish(Integer id, String name, Integer priceInCents) {
