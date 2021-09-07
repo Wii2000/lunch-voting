@@ -1,3 +1,5 @@
+[![Build Status](https://app.travis-ci.com/Wii2000/lunch-voting.svg?branch=master)](https://app.travis-ci.com/Wii2000/lunch-voting)
+
 # Lunch voting
 
 REST API of voting system for deciding where to have lunch.<br>
