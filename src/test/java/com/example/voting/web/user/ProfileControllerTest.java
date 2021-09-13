@@ -49,7 +49,7 @@ class ProfileControllerTest extends AbstractControllerTest {
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(URL))
                 .andExpect(status().isNoContent());
-        MATCHER.assertMatch(userRepository.findAll(), admin);
+        MATCHER.assertMatch(userRepository.findAll(), admin, user2);
     }
 
     @Test
@@ -61,10 +61,12 @@ class ProfileControllerTest extends AbstractControllerTest {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        User created = JsonUtil.readValue(MATCHER.getContent(result), User.class);
-        User fromTo = UserUtil.createNewFromTo(newTo);
-        fromTo.setId(created.id());
-        MATCHER.assertMatch(created, fromTo);
+        User registered = JsonUtil.readValue(MATCHER.getContent(result), User.class);
+        User newUser = UserUtil.createNewFromTo(newTo);
+        int newId = registered.id();
+        newUser.setId(newId);
+        MATCHER.assertMatch(registered, newUser);
+        MATCHER.assertMatch(userRepository.getById(newId), newUser);
     }
 
     @Test

@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Table(name = "restaurant")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
-public class Restaurant extends NamedEntity implements HasId {
+public class Restaurant extends NamedEntity {
     public Restaurant(Integer id, String name) {
         super(id, name);
     }

@@ -53,7 +53,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MATCHER.contentJson(admin, user));
+                .andExpect(MATCHER.contentJson(admin, user, user2));
     }
 
     @Test
@@ -78,7 +78,7 @@ class AdminUserControllerTest extends AbstractControllerTest {
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(URL + USER_ID))
                 .andExpect(status().isNoContent());
-        MATCHER.assertMatch(userRepository.findAll(), admin);
+        MATCHER.assertMatch(userRepository.findAll(), admin, user2);
     }
 
     @Test
@@ -91,8 +91,10 @@ class AdminUserControllerTest extends AbstractControllerTest {
                 .andExpect(status().isCreated());
 
         User created = JsonUtil.readValue(Matcher.getString(actions), User.class);
-        newUser.setId(created.id());
+        int newId = created.id();
+        newUser.setId(newId);
         MATCHER.assertMatch(created, newUser);
+        MATCHER.assertMatch(userRepository.getById(newId), newUser);
     }
 
     @Test

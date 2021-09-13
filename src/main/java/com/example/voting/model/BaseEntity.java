@@ -1,5 +1,6 @@
 package com.example.voting.model;
 
+import com.example.voting.HasId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.domain.Persistable;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class BaseEntity implements Persistable<Integer>{
+public abstract class BaseEntity implements Persistable<Integer>, HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

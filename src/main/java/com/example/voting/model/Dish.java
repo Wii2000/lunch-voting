@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
-public class Dish extends NamedEntity implements HasId {
+public class Dish extends NamedEntity {
 
     @Column(name = "price_in_cents", nullable = false)
     @Range(min = 10, max = 5000)

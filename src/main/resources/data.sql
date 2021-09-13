@@ -1,11 +1,13 @@
 INSERT INTO USERS (name, email, password)
 VALUES ('User', 'user@mail.com', '{noop}password'),
-       ('Admin', 'admin@mail.com', '{noop}admin');
+       ('Admin', 'admin@mail.com', '{noop}admin'),
+       ('User2', 'user2@mail.com', '{noop}password2');
 
 INSERT INTO USER_ROLE (role, user_id)
 VALUES ('USER', 1),
        ('ADMIN', 2),
-       ('USER', 2);
+       ('USER', 2),
+       ('USER', 3);
 
 INSERT INTO restaurant (name)
 VALUES ('Restaurant1'),
@@ -24,3 +26,6 @@ VALUES (1, 'Dish1', 375, CASE WHEN HOUR(current_time) < 11 THEN CURRENT_DATE ELS
        (3, 'Dish7', 330, CASE WHEN HOUR(current_time) < 11 THEN CURRENT_DATE ELSE DATEADD('DAY', 1, CURRENT_DATE) END),
        (3, 'Dish8', 400, CASE WHEN HOUR(current_time) < 11 THEN CURRENT_DATE ELSE DATEADD('DAY', 1, CURRENT_DATE) END),
        (3, 'Dish9', 360, CASE WHEN HOUR(current_time) < 11 THEN CURRENT_DATE ELSE DATEADD('DAY', 1, CURRENT_DATE) END);
+
+INSERT INTO vote (user_id, restaurant_id, registered)
+VALUES (3, 2, NOW());
