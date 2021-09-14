@@ -22,7 +22,6 @@ class MenuControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(result -> assertThat(JsonUtil.readValues(getContent(result), MenuTo.class)).hasSize(3))
                 .andDo(print());
     }
 }

@@ -1,6 +1,5 @@
 package com.example.voting.model;
 
-import com.example.voting.HasId;
 import com.example.voting.Persist;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;

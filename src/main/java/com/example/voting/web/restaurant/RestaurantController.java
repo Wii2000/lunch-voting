@@ -25,7 +25,7 @@ public class RestaurantController {
     static final String REST_URL = "/api/admin/restaurants";
 
     @Autowired
-    protected RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
 
     @GetMapping("/{id}")
     @Operation(summary = "Get restaurant by id")

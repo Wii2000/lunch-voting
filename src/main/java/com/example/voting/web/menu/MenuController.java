@@ -1,8 +1,10 @@
 package com.example.voting.web.menu;
 
 
+import com.example.voting.exception.NotFoundException;
 import com.example.voting.model.Dish;
 import com.example.voting.repository.DishRepository;
+import com.example.voting.repository.RestaurantRepository;
 import com.example.voting.to.MenuTo;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,9 @@ public class MenuController {
     @Autowired
     protected DishRepository dishRepository;
 
+    @Autowired
+    protected RestaurantRepository restaurantRepository;
+
     @GetMapping
     @Operation(summary = "Get restaurants menus for today")
     public List<MenuTo> getAll() {
@@ -34,8 +39,9 @@ public class MenuController {
         List<MenuTo> result = new ArrayList<>();
 
         dishRepository.findByDate(getVoteDate()).stream()
-                .collect(groupingBy(Dish::getRestaurant))
-                .forEach(((restaurant, dishes) -> result.add(new MenuTo(restaurant, dishes))));
+                .collect(groupingBy(dish -> dish.getRestaurant().getId()))
+                .forEach(((restaurantId, dishes) ->
+                        result.add(new MenuTo(restaurantRepository.findById(restaurantId).orElse(null), dishes))));
 
         return result;
     }

@@ -2,6 +2,7 @@ package com.example.voting.web;
 
 import com.example.voting.exception.AppException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @AllArgsConstructor
+@Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String EXCEPTION_DUPLICATE_EMAIL = "User with this email already exists";
 
@@ -27,6 +29,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AppException.class)
     public ResponseEntity<Map<String, Object>> appException(AppException ex, WebRequest request) {
+        log.error("ApplicationException", ex);
         return createResponseEntity(getDefaultBody(request, ex.getOptions(), null), ex.getStatus());
     }
 

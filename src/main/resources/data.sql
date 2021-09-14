@@ -15,17 +15,17 @@ VALUES ('Restaurant1'),
        ('Restaurant3');
 
 INSERT INTO dish (restaurant_id, name, price_in_cents, date)
-VALUES (1, 'Dish1', 375, CASE WHEN HOUR(current_time) < 11 THEN CURRENT_DATE ELSE DATEADD('DAY', 1, CURRENT_DATE) END),
-       (1, 'Dish2', 450, CASE WHEN HOUR(current_time) < 11 THEN CURRENT_DATE ELSE DATEADD('DAY', 1, CURRENT_DATE) END),
-       (1, 'Dish3', 350, CASE WHEN HOUR(current_time) < 11 THEN CURRENT_DATE ELSE DATEADD('DAY', 1, CURRENT_DATE) END),
+VALUES (1, 'Dish1', 375, NOW()),
+       (1, 'Dish2', 450, NOW()),
+       (1, 'Dish3', 350, NOW()),
 
-       (2, 'Dish4', 250, CASE WHEN HOUR(current_time) < 11 THEN CURRENT_DATE ELSE DATEADD('DAY', 1, CURRENT_DATE) END),
-       (2, 'Dish5', 340, CASE WHEN HOUR(current_time) < 11 THEN CURRENT_DATE ELSE DATEADD('DAY', 1, CURRENT_DATE) END),
-       (2, 'Dish6', 550, CASE WHEN HOUR(current_time) < 11 THEN CURRENT_DATE ELSE DATEADD('DAY', 1, CURRENT_DATE) END),
+       (2, 'Dish4', 250, NOW()),
+       (2, 'Dish5', 340, NOW()),
+       (2, 'Dish6', 550, NOW()),
 
-       (3, 'Dish7', 330, CASE WHEN HOUR(current_time) < 11 THEN CURRENT_DATE ELSE DATEADD('DAY', 1, CURRENT_DATE) END),
-       (3, 'Dish8', 400, CASE WHEN HOUR(current_time) < 11 THEN CURRENT_DATE ELSE DATEADD('DAY', 1, CURRENT_DATE) END),
-       (3, 'Dish9', 360, CASE WHEN HOUR(current_time) < 11 THEN CURRENT_DATE ELSE DATEADD('DAY', 1, CURRENT_DATE) END);
+       (3, 'Dish7', 330, DATEADD('DAY', 1, CURRENT_DATE)),
+       (3, 'Dish8', 400, DATEADD('DAY', 1, CURRENT_DATE)),
+       (3, 'Dish9', 360, DATEADD('DAY', 1, CURRENT_DATE));
 
 INSERT INTO vote (user_id, restaurant_id, registered)
 VALUES (3, 2, NOW());
