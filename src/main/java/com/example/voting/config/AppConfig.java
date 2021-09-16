@@ -9,9 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.Clock;
+
 @Configuration
 @Slf4j
 public class AppConfig {
+
+    //    https://stackoverflow.com/a/32794740/16047333
+    @Bean
+    public Clock clock() {
+        return Clock.systemDefaultZone();
+    }
 
     //    https://stackoverflow.com/a/46947975/548473
     @Bean

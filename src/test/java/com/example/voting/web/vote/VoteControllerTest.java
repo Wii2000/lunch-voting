@@ -3,34 +3,44 @@ package com.example.voting.web.vote;
 import com.example.voting.model.Vote;
 import com.example.voting.repository.VoteRepository;
 import com.example.voting.util.JsonUtil;
+import com.example.voting.util.TimeUtil;
 import com.example.voting.web.AbstractControllerTest;
 import com.example.voting.web.GlobalExceptionHandler;
 import com.example.voting.web.Matcher;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.Clock;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 
+import static com.example.voting.web.GlobalExceptionHandler.EXCEPTION_CHANGE_VOTE;
 import static com.example.voting.web.restaurant.RestaurantTestUtil.RESTAURANT_1_ID;
 import static com.example.voting.web.restaurant.RestaurantTestUtil.RESTAURANT_2_ID;
 import static com.example.voting.web.user.UserTestUtil.*;
 import static com.example.voting.web.vote.VoteController.REST_URL;
-import static com.example.voting.web.vote.VoteController.VOTING_CHANGE_END_TIME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class VoteControllerTest extends AbstractControllerTest {
     static final String URL = REST_URL;
+    private static final int USER_2_VOTE_ID = 1;
 
     @Autowired
     private VoteRepository voteRepository;
+
+    @MockBean
+    private Clock clock;
 
     @Test
     @WithUserDetails(value = USER_MAIL)
@@ -58,15 +68,29 @@ class VoteControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = USER_2_MAIL)
-    void update() throws Exception {
-        perform(MockMvcRequestBuilders.put(URL + "/" + 1 + "?restaurantId=" + RESTAURANT_1_ID)
+    void updateInTime() throws Exception {
+        setTimeOnClock(TimeUtil.VOTE_IN_TIME);
+
+        perform(MockMvcRequestBuilders.put(URL + "/" + USER_2_VOTE_ID + "?restaurantId=" + RESTAURANT_1_ID)
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(LocalTime.now().isBefore(VOTING_CHANGE_END_TIME) ?
-                        status().isCreated() : status().isUnprocessableEntity())
+                .andExpect(status().isNoContent())
                 .andDo(print());
 
-        assertThat(voteRepository.getById(1).getRestaurant().getId())
-                .isEqualTo(LocalTime.now().isBefore(VOTING_CHANGE_END_TIME) ? RESTAURANT_1_ID : RESTAURANT_2_ID);
+        assertThat(voteRepository.getById(USER_2_VOTE_ID).getRestaurant().getId()).isEqualTo(RESTAURANT_1_ID);
+    }
+
+    @Test
+    @WithUserDetails(value = USER_2_MAIL)
+    void updateAfterTimeIsUp() throws Exception {
+        setTimeOnClock(TimeUtil.VOTE_TIME_IS_UP);
+
+        perform(MockMvcRequestBuilders.put(URL + "/" + USER_2_VOTE_ID + "?restaurantId=" + RESTAURANT_1_ID)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().string(containsString(EXCEPTION_CHANGE_VOTE)))
+                .andDo(print());
+
+        assertThat(voteRepository.getById(USER_2_VOTE_ID).getRestaurant().getId()).isEqualTo(RESTAURANT_2_ID);
     }
 
     @Test
@@ -74,5 +98,15 @@ class VoteControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.post(URL + "?restaurantId=" + RESTAURANT_1_ID))
                 .andExpect(status().isUnauthorized())
                 .andDo(print());
+    }
+
+    //    https://stackoverflow.com/a/32794740/16047333
+    private void setTimeOnClock(LocalTime voteInTime) {
+        Clock fixedClock = Clock.fixed(
+                voteInTime.atDate(LocalDate.now()).atZone(ZoneId.systemDefault()).toInstant(),
+                ZoneId.systemDefault()
+        );
+        doReturn(fixedClock.instant()).when(clock).instant();
+        doReturn(fixedClock.getZone()).when(clock).getZone();
     }
 }

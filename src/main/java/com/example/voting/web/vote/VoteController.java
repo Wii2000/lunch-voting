@@ -5,6 +5,7 @@ import com.example.voting.exception.UniqueConstraintException;
 import com.example.voting.model.Vote;
 import com.example.voting.repository.RestaurantRepository;
 import com.example.voting.repository.VoteRepository;
+import com.example.voting.util.TimeUtil;
 import com.example.voting.web.AuthUser;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -30,13 +32,15 @@ import static com.example.voting.web.GlobalExceptionHandler.EXCEPTION_DUPLICATE_
 @Slf4j
 public class VoteController {
     static final String REST_URL = "/api/votes";
-    public static final LocalTime VOTING_CHANGE_END_TIME = LocalTime.of(11, 0);
 
     @Autowired
     private RestaurantRepository restaurantRepository;
 
     @Autowired
     private VoteRepository voteRepository;
+
+    @Autowired
+    private Clock clock;
 
     @GetMapping("/{id}")
     @Operation(summary = "Get user's own vote by id")
@@ -81,7 +85,7 @@ public class VoteController {
             @PathVariable int id
     ) {
         log.info("update {}", restaurantId);
-        if (LocalTime.now().isAfter(VOTING_CHANGE_END_TIME)) {
+        if (LocalTime.now(clock).isAfter(TimeUtil.VOTING_CHANGE_END_TIME)) {
             throw new IllegalRequestDataException(EXCEPTION_CHANGE_VOTE);
         }
         voteRepository.save(
