@@ -18,12 +18,12 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
     @Query("DELETE FROM Dish d WHERE d.id=:dishId AND d.restaurant.id=:restaurantId")
     int delete(int restaurantId, int dishId);
 
-    List<Dish> findByDate(LocalDate localDate);
+    List<Dish> findByRegistered(LocalDate registered);
 
-    @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId ORDER BY d.date DESC, d.name ASC")
-    List<Dish> findByRestaurant(int restaurantId);
+    @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId ORDER BY d.registered DESC, d.name ASC")
+    List<Dish> findByRestaurantId(int restaurantId);
 
-    @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId AND d.id=:id ORDER BY d.date DESC, d.name ASC")
-    Optional<Dish> findByRestaurantAndId(int restaurantId, int id);
+    @Query("SELECT d FROM Dish d WHERE d.restaurant.id=:restaurantId AND d.id=:id")
+    Optional<Dish> findByRestaurantIdAndId(int restaurantId, int id);
 }
 

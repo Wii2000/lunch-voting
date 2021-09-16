@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,7 +35,7 @@ public class DishController {
     @Operation(summary = "Get all dishes of restaurant")
     public List<Dish> getAll(@PathVariable("restaurant_id") int restaurantId) {
         log.info("get {}", restaurantId);
-        return dishRepository.findByRestaurant(restaurantId);
+        return dishRepository.findByRestaurantId(restaurantId);
     }
 
     @GetMapping(value = "/{dish_id}")
@@ -43,7 +44,7 @@ public class DishController {
             @PathVariable("restaurant_id") int restaurantId, @PathVariable("dish_id") int id
     ) {
         log.info("get {} for restaurantID {}", id, restaurantId);
-        return ResponseEntity.of(dishRepository.findByRestaurantAndId(restaurantId, id));
+        return ResponseEntity.of(dishRepository.findByRestaurantIdAndId(restaurantId, id));
     }
 
     @DeleteMapping(value = "/{dish_id}")
@@ -57,14 +58,14 @@ public class DishController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Transactional
     @Operation(summary = "Create dish of restaurant")
     public ResponseEntity<Dish> createWithLocation(
             @PathVariable("restaurant_id") int restaurantId, @Valid @RequestBody Dish dish
     ) {
         log.info("create {}", dish);
         checkNew(dish);
-        dish.setRestaurant(checkNotFoundWithId(
-                restaurantRepository.findById(restaurantId).orElse(null), restaurantId));
+        dish.setRestaurant(restaurantRepository.getById(restaurantId));
         Dish created = dishRepository.save(dish);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -74,6 +75,7 @@ public class DishController {
 
     @PutMapping(value = "/{dish_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     @Operation(summary = "Update dish of restaurant")
     public void update(
             @PathVariable("restaurant_id") int restaurantId,
@@ -82,9 +84,9 @@ public class DishController {
     ) {
         log.info("update {} with id={}", dish, dishId);
         assureIdConsistent(dish, dishId);
-        Dish dbDish = checkNotFoundWithId(dishRepository.findById(dishId)
-                .filter(d -> d.getRestaurant().getId().equals(restaurantId)).orElse(null), dishId);
-        dish.setRestaurant(dbDish.getRestaurant());
+        checkNotFoundWithId(dishRepository.findByRestaurantIdAndId(restaurantId, dishId)
+                .orElse(null), dishId);
+        dish.setRestaurant(restaurantRepository.getById(restaurantId));
         dishRepository.save(dish);
     }
 }

@@ -31,11 +31,8 @@ spring:
     visibility.setter: none
     visibility.is-getter: none
 
-
 logging:
   level:
     root: WARN
     com.example.voting: DEBUG
-    #    org.springframework.security.web.FilterChainProxy: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
-#    org.springframework.orm.jpa: DEBUG

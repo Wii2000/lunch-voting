@@ -8,21 +8,23 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
+
 import static com.example.voting.web.Matcher.getContent;
-import static com.example.voting.web.menu.MenuController.REST_URL;
-import static com.example.voting.web.user.UserTestUtil.USER_MAIL;
+import static com.example.voting.web.menu.AdminMenuController.REST_URL;
+import static com.example.voting.web.user.UserTestUtil.ADMIN_MAIL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class MenuControllerTest extends AbstractControllerTest {
+class AdminMenuControllerTest extends AbstractControllerTest {
     @Test
-    @WithUserDetails(value = USER_MAIL)
-    void getToday() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL)
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getByDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + "/by?date=" + LocalDate.now().plusDays(1))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(result -> assertThat(JsonUtil.readValues(getContent(result), MenuTo.class)).hasSize(3))
+                .andExpect(result -> assertThat(JsonUtil.readValues(getContent(result), MenuTo.class)).hasSize(2))
                 .andDo(print());
     }
 }

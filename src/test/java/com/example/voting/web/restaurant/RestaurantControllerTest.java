@@ -4,6 +4,7 @@ import com.example.voting.model.Restaurant;
 import com.example.voting.repository.RestaurantRepository;
 import com.example.voting.util.JsonUtil;
 import com.example.voting.web.AbstractControllerTest;
+import com.example.voting.web.GlobalExceptionHandler;
 import com.example.voting.web.Matcher;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import static com.example.voting.web.restaurant.RestaurantTestUtil.*;
 import static com.example.voting.web.user.UserTestUtil.ADMIN_MAIL;
 import static com.example.voting.web.user.UserTestUtil.USER_MAIL;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -83,6 +85,17 @@ class RestaurantControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newRestaurant)))
                 .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    void createDuplicate() throws Exception {
+        Restaurant newRestaurant = new Restaurant(null, restaurant1.getName());
+        perform(MockMvcRequestBuilders.post(URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(newRestaurant)))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().string(containsString(GlobalExceptionHandler.EXCEPTION_DUPLICATE_NAME)));
+
     }
 
     @Test

@@ -82,8 +82,10 @@ class DishControllerTest extends AbstractControllerTest {
                 .andDo(print());
 
         Dish created = JsonUtil.readValue(Matcher.getString(actions), Dish.class);
-        newDish.setId(created.id());
+        int newId = created.id();
+        newDish.setId(newId);
         MATCHER.assertMatch(created, newDish);
+        MATCHER.assertMatch(dishRepository.getById(newId), newDish);
     }
 
     @Test

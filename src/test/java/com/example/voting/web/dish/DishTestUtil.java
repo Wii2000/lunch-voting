@@ -26,5 +26,4 @@ public class DishTestUtil {
     public static Dish getUpdated() {
         return new Dish(null, "updatedDish", 600);
     }
-
 }
