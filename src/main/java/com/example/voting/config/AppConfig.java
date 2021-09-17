@@ -4,17 +4,16 @@ import com.example.voting.util.JsonUtil;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.Clock;
 
 @Configuration
-@Slf4j
+@EnableCaching
 public class AppConfig {
-
     //    https://stackoverflow.com/a/32794740/16047333
     @Bean
     public Clock clock() {

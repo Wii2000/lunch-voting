@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String EXCEPTION_DUPLICATE_EMAIL = "User with this email already exists";
-    public static final String EXCEPTION_DUPLICATE_NAME = "Note with this name already exists";
-    public static final String EXCEPTION_DUPLICATE_VOTE = "Already voted that day";
-    public static final String EXCEPTION_CHANGE_VOTE = "Vote can't be changed";
+    public static final String EXCEPTION_DUPLICATE_NAME = "Restaurant with this name already exists";
+    public static final String EXCEPTION_DUPLICATE_VOTE = "Already voted this day";
+    public static final String EXCEPTION_CHANGE_VOTE = "Time for re-voting is up";
 
     private final ErrorAttributes errorAttributes;
 

@@ -25,11 +25,17 @@ spring:
     #    tcp: jdbc:h2:tcp://localhost:9092/mem:voting
     username: sa
     password:
+
   jackson:
     visibility.field: any
     visibility.getter: none
     visibility.setter: none
     visibility.is-getter: none
+
+  # https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#common-application-properties-cache
+  cache:
+    cache-names: menus
+    caffeine.spec: maximumSize=1,expireAfterAccess=60s
 
 logging:
   level:

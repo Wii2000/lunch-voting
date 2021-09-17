@@ -6,6 +6,8 @@ import com.example.voting.repository.RestaurantRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import static com.example.voting.util.ValidationUtil.*;
 @RestController
 @RequestMapping(value = DishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
+@CacheConfig(cacheNames = {"menus"})
 public class DishController {
     static final String REST_URL = "/api/admin/restaurants/{restaurant_id}/dishes";
 
@@ -49,6 +52,7 @@ public class DishController {
 
     @DeleteMapping(value = "/{dish_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CacheEvict(allEntries = true)
     @Operation(summary = "Delete dish of restaurant by id")
     public void delete(
             @PathVariable("restaurant_id") int restaurantId, @PathVariable("dish_id") int id
@@ -59,6 +63,7 @@ public class DishController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @Transactional
+    @CacheEvict(allEntries = true)
     @Operation(summary = "Create dish of restaurant")
     public ResponseEntity<Dish> createWithLocation(
             @PathVariable("restaurant_id") int restaurantId, @Valid @RequestBody Dish dish
@@ -76,6 +81,7 @@ public class DishController {
     @PutMapping(value = "/{dish_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
+    @CacheEvict(allEntries = true)
     @Operation(summary = "Update dish of restaurant")
     public void update(
             @PathVariable("restaurant_id") int restaurantId,

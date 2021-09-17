@@ -1,12 +1,12 @@
 package com.example.voting.web.user;
 
-import com.example.voting.web.Matcher;
 import com.example.voting.model.Role;
 import com.example.voting.model.User;
 import com.example.voting.util.JsonUtil;
+import com.example.voting.web.Matcher;
 
 public class UserTestUtil {
-    public static final Matcher<User> MATCHER = new Matcher<>(User.class,"registered", "password");
+    public static final Matcher<User> MATCHER = new Matcher<>(User.class, "registered", "password");
     public static final int USER_ID = 1;
     public static final int ADMIN_ID = 2;
     public static final int USER_2_ID = 3;
