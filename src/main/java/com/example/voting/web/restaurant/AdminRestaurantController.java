@@ -22,10 +22,10 @@ import java.util.List;
 import static com.example.voting.util.ValidationUtil.*;
 
 @RestController
-@RequestMapping(value = RestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = AdminRestaurantController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @CacheConfig(cacheNames = {"menus"})
-public class RestaurantController {
+public class AdminRestaurantController {
     static final String REST_URL = "/api/admin/restaurants";
 
     @Autowired
@@ -55,6 +55,7 @@ public class RestaurantController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CacheEvict(allEntries = true)
     @Operation(summary = "Delete restaurant by id")
     public void delete(@PathVariable int id) {
         log.info("delete {}", id);

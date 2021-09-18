@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WithUserDetails(value = ADMIN_MAIL)
-class DishControllerTest extends AbstractControllerTest {
+class AdminDishControllerTest extends AbstractControllerTest {
     private final static String URL = "/api/admin/restaurants/" + RESTAURANT_1_ID + "/dishes/";
 
     @Autowired

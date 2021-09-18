@@ -22,10 +22,10 @@ import java.util.List;
 import static com.example.voting.util.ValidationUtil.*;
 
 @RestController
-@RequestMapping(value = DishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = AdminDishController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @CacheConfig(cacheNames = {"menus"})
-public class DishController {
+public class AdminDishController {
     static final String REST_URL = "/api/admin/restaurants/{restaurant_id}/dishes";
 
     @Autowired

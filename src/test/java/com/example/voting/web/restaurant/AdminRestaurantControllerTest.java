@@ -13,7 +13,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static com.example.voting.web.restaurant.RestaurantController.REST_URL;
+import static com.example.voting.web.restaurant.AdminRestaurantController.REST_URL;
 import static com.example.voting.web.restaurant.RestaurantTestUtil.*;
 import static com.example.voting.web.user.UserTestUtil.ADMIN_MAIL;
 import static com.example.voting.web.user.UserTestUtil.USER_MAIL;
@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WithUserDetails(value = ADMIN_MAIL)
-class RestaurantControllerTest extends AbstractControllerTest {
+class AdminRestaurantControllerTest extends AbstractControllerTest {
     static final String URL = REST_URL + "/";
 
     @Autowired
