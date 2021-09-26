@@ -4,9 +4,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "restaurant", uniqueConstraints =
@@ -14,7 +13,11 @@ import javax.persistence.UniqueConstraint;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
 public class Restaurant extends NamedEntity {
+
     public Restaurant(Integer id, String name) {
         super(id, name);
     }
+
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
+    private List<Dish> dishes;
 }

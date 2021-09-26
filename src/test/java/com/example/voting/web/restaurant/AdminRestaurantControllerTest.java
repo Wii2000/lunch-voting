@@ -13,6 +13,9 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.time.LocalDate;
+
+import static com.example.voting.web.Matcher.getContent;
 import static com.example.voting.web.restaurant.AdminRestaurantController.REST_URL;
 import static com.example.voting.web.restaurant.RestaurantTestUtil.*;
 import static com.example.voting.web.user.UserTestUtil.ADMIN_MAIL;
@@ -37,6 +40,16 @@ class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(MATCHER.contentJson(restaurant1));
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getMenusByDate() throws Exception {
+        perform(MockMvcRequestBuilders.get(URL + "/by?date=" + LocalDate.now().plusDays(1))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(result -> assertThat(JsonUtil.readValues(getContent(result), Restaurant.class)).hasSize(2))
+                .andDo(print());
     }
 
     @Test
